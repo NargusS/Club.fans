@@ -21,4 +21,10 @@ export class ProfileService {
 			},
 		});
 	}
+
+	static async getProfileById(profileId: string) {
+		return await prisma.profile.findUnique({
+			where: { id: profileId },
+		});
+	}
 }

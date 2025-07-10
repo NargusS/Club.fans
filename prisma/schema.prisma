@@ -20,6 +20,7 @@ model User {
   profile   Profile?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  Subscription Subscription[]
 }
 
 model Profile {
@@ -30,4 +31,29 @@ model Profile {
   monthlyPrice Int
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+  media        Media[]
+  Subscription Subscription[]
+}
+
+model Media {
+  id        String   @id @default(uuid())
+  profileId String
+  profile   Profile  @relation(fields: [profileId], references: [id])
+  mediaUrl       String
+  blurredMediaUrl String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([profileId])
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  fanId String
+  fan   User  @relation(fields: [fanId], references: [id])
+  creatorId String
+  creator   Profile  @relation(fields: [creatorId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([fanId])
+  @@index([creatorId])
 }
