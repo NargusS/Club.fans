@@ -5,12 +5,20 @@ const prisma = new PrismaClient();
 export class ProfileService {
 	static async editProfile(
 		userId: string,
-		name?: string,
+		username?: string,
 		monthlyPrice?: number
 	) {
 		return await prisma.profile.update({
 			where: { userId },
-			data: { name, monthlyPrice },
+			data: { username, monthlyPrice },
+		});
+	}
+
+	static async getProfileByUsername(username: string) {
+		return await prisma.profile.findUnique({
+			where: {
+				username: username,
+			},
 		});
 	}
 }

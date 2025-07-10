@@ -11,20 +11,20 @@ export class AuthService {
 		if (!user) {
 			const token = crypto.randomUUID();
 			const user = await prisma.user.create({
-				data: { 
-					email, 
-					password, 
+				data: {
+					email,
+					password,
 					token,
 					profile: {
 						create: {
-							name: email.split('@')[0],
-							monthlyPrice: 0
-						}
-					}
+							username: email.split("@")[0],
+							monthlyPrice: 0,
+						},
+					},
 				},
 				include: {
-					profile: true
-				}
+					profile: true,
+				},
 			});
 
 			return {
