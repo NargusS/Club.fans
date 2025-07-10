@@ -1,0 +1,23 @@
+import express from "express";
+import { errorHandler } from "./middlewares/errorHandler";
+import { logger } from "./middlewares/logger";
+import { PrismaClient } from "../generated/prisma";
+
+const app = express();
+const PORT = 3000;
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(logger);
+
+app.get("/health", (req, res) => {
+	res.status(200).json({ status: "OK", timestamp: new Date().toISOString() });
+});
+
+app.use(errorHandler);
+
+app.listen(PORT, () => {
+	console.log(`Server running on port ${PORT}`);
+});
